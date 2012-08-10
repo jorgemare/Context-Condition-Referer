@@ -1,0 +1,41 @@
+<?php
+
+/**
+ * CTools plugin API hook for Context. Note that a proper entry in
+ * hook_ctools_plugin_api() must exist for this hook to be called.
+ */
+function context_condition_referer_context_plugins() {
+  $plugins = array();
+  $plugins['context_condition_referer_condition_referer'] = array(
+    'handler' => array(
+      'path' => drupal_get_path('module', 'context_condition_referer') .'/plugins',
+      'file' => 'context_condition_referer.condition.inc',
+      'class' => 'context_condition_referer_context_referer',
+      'parent' => 'context_condition',
+    ),
+  );
+  return $plugins;
+}
+
+/*
+ * Implements hook_context_registry().
+ */
+function context_condition_referer_context_registry() {
+  return array(
+    'conditions' => array(
+      'referer' => array(
+        'title' => t('Referer'),
+        'plugin' => 'context_condition_referer_condition_referer',
+      ),
+    ),
+  );
+}
+
+/*
+ * Implements hook_context_page_condition().
+ */
+function context_condition_referer_context_page_condition() {
+  if ($plugin = context_get_plugin('condition', 'referer')) {
+    $plugin->execute();
+  }
+}
