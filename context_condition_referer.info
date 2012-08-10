@@ -1,0 +1,5 @@
+core = "7.x"
+description = "Adds a referer condition to the context module"
+name = "Context Condition Referer"
+package = "Context"
+
